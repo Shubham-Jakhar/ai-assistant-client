@@ -8,7 +8,11 @@ function App() {
   const [messages,setMessages]=useState([]);
   const fetchAnsOfUser = async (data) =>{
     try{
-    const response  = await fetch();
+    const response  = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/ask-ai-assistant`,{
+      method:"POST",
+      headers:{"content-type":"application/json"},
+      body:JSON.stringify({data})
+    });
     if(response.status === 200){
       const data = await response.json();
       const newMessage ={
@@ -41,7 +45,7 @@ function App() {
     }
     setMessageID(messageId+1);
     setMessages([...messages,newMessage]);
-
+    fetchAnsOfUser(newMessage.text);
   }
   return <>
   <div>
